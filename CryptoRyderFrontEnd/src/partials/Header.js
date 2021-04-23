@@ -26,19 +26,27 @@ function Header() {
   }, [top]);
   return (
     <Router>
-      <header className="fixed  shadow-2xl px-4 w-full bg-white z-30  transition duration-300 ease-in-out">
+      <header className="fixed shadow-2xl px-4 w-full bg-white z-30  transition duration-300 ease-in-out ">
         <Navbar expand="lg">
           <Navbar.Brand href="/">
-            <h3 className="font-Lobster text-4xl text-gray-700">CarVi</h3>
+            <h3 className="font-Lobster text-3xl text-gray-700">CarVi</h3>
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="ml-auto">
+            <Nav className="ml-auto text-center mt-0 sm:mt-5">
               {/* <Nav.Link href="/discover">Discover</Nav.Link>
-              <Nav.Link href="/curated-brands">Curated Brands</Nav.Link>
+              
 
               <Nav.Link href="/market">Market</Nav.Link>
               <Nav.Link href="/activity">Activity</Nav.Link> */}
+              <Nav.Link href="/search" className="text-xl pr-5">
+                Find Ride
+                <i className="fas fa-search text-lg ml-3"></i>
+              </Nav.Link>
+              <Nav.Link href="/offerride" className="text-xl pr-5">
+                Offer Rider
+                <i className="fas fa-plus text-lg ml-3"></i>
+              </Nav.Link>
               {localStorage.getItem("walletAddress") ? (
                 <>
                   <Dropdown id="check">
@@ -57,7 +65,11 @@ function Header() {
                           {open ? (
                             <Icons.CaretUp size={25} color="black" />
                           ) : (
-                            <Icons.CaretDown size={25} color="black" />
+                            <Icons.CaretDown
+                              size={25}
+                              color="black"
+                              className="mt-1"
+                            />
                           )}
                         </div>
                       </div>
@@ -65,10 +77,8 @@ function Header() {
 
                     <Dropdown.Menu>
                       <Dropdown.Item href="/profile">Profile</Dropdown.Item>
-                      <Dropdown.Item href="/dashboard">My Rides</Dropdown.Item>
-                      <Dropdown.Item href="/collection">
-                        My Driver
-                      </Dropdown.Item>
+                      <Dropdown.Item href="/myrides">My Rides</Dropdown.Item>
+                      <Dropdown.Item href="/mydriver">My Drives</Dropdown.Item>
                       <Dropdown.Divider />
                       <Dropdown.Item onClick={SignOut}>Logout</Dropdown.Item>
                     </Dropdown.Menu>

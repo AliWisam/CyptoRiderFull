@@ -3,11 +3,11 @@ import { Link } from "react-router-dom";
 
 function Footer() {
   return (
-    <footer className="bg-black-100 mt-40">
-      <div className="max-w-10xl mx-auto px-4 sm:px-6 ">
+    <footer className="bg-black-100">
+      <div className="max-w-10xl mt-32 mx-auto px-4 sm:px-6 ">
         {/* Top area: Blocks */}
-        <div className="mt-20 text-white mb-10">
-          <div className="text-center ">
+        <div className=" text-white mb-10" >
+          <div className="text-center pt-5">
             <span className="text-2xl tracking-wider ">
               Subscribe to our newsletter
             </span>

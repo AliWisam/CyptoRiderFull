@@ -14,11 +14,7 @@ const useStyles = makeStyles((theme) => ({
 function CardSocialTraffic() {
   const classes = useStyles();
 
-  const [edit, setEdit] = useState(0);
-  function editArtist() {
-    setEdit(edit + 1);
-  }
-  function viewArtist() {}
+  
 
   return (
     <>
@@ -26,7 +22,7 @@ function CardSocialTraffic() {
         <div className="block w-full text-center  overflow-x-auto">
           {/* Projects table */}
           <form className={classes.root} autoComplete="on">
-            <div>
+            <div className="mt-5">
               <TextField required id="standard-required" label="From" />
               <TextField required id="standard-required" label="To" />
 
@@ -40,6 +36,11 @@ function CardSocialTraffic() {
                   shrink: true,
                 }}
               />
+            </div>
+            <div className="text-center mt-5">
+              <button class="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-3 font-semibold">
+                SEARCH
+              </button>{" "}
             </div>
           </form>
         </div>

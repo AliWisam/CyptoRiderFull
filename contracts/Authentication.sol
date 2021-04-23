@@ -6,8 +6,8 @@ contract Authentication is Killable {
     bytes32 name;
     uint8 age;
     uint256 phoneNumber;
-    uint[] driverRating;
-    uint[] riderRating;
+    uint driverRating;
+    uint riderRating;
     uint8 numberOfRidesGiven;// driver
     uint8 numberOfRidesTaken; //passenger
   }
@@ -16,7 +16,7 @@ contract Authentication is Killable {
 
   uint private id; // Stores user id temporarily
   
-    //bytes32 public name = "Ali WIsam";
+    
     
   modifier onlyExistingUser {
     // Check if user exists or terminate
@@ -112,13 +112,15 @@ contract Authentication is Killable {
   
     //called by Passenger
   function driverRating(address _userAddress, uint _driverRating) public {
-      require(_driverRating < 5,"rating start should be less than 5");
-      users[_userAddress].driverRating.push(_driverRating);
+      require(_driverRating <= 5,"rating start should be less than 5");
+      //users[_userAddress].driverRating.push(_driverRating);
+      users[_userAddress].driverRating = _driverRating;
     }
     //called by driver
     function riderRating(address _userAddress, uint _riderRating) public {
-      require(_riderRating < 5,"rating start should be less than 5");
-      users[_userAddress].riderRating.push(_riderRating);
+      require(_riderRating <= 5,"rating start should be less than 5");
+     // users[_userAddress].riderRating.push(_riderRating);
+     users[_userAddress].riderRating = _riderRating;
     }
     
     function numberOfRidesGiven(address _userAddress) public {
@@ -130,7 +132,7 @@ contract Authentication is Killable {
     }
     function getUserData(address _userAddress) public view 
     returns(bytes32 name, uint age,uint256 phoneNumber,
-    uint NumberOfRidesGiven,uint NumberOfRidesTaken ,uint[] memory,uint[] memory){
+    uint NumberOfRidesGiven,uint NumberOfRidesTaken ,uint ,uint){
         
        return (
             users[_userAddress].name,

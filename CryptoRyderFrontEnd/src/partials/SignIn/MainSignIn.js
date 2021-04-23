@@ -2,9 +2,13 @@ import React, { useState, useEffect } from "react";
 import Web3 from "web3";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-import validator from "validator";
 import { useHistory } from "react-router-dom";
+import config from "../../config";
+
+const auth = require("../../contracts/Authentication.json");
 let web3;
+let authentication;
+let accounts;
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
@@ -17,47 +21,74 @@ const useStyles = makeStyles((theme) => ({
 function MainSignIn() {
   const history = useHistory();
   const classes = useStyles();
-
+  const [notAccount, setNotAccount] = useState(false);
   const [walletAccount, setWalletAccount] = useState("");
-  const [email, setEmail] = useState("");
-  const [checkEmail, setCheckEmail] = useState(false);
   const [username, setUsername] = useState("");
   const [signupDiv, setSignupDiv] = useState(false);
-  const [emailError, setEmailError] = useState("");
-  const validateEmail = (e) => {
-    setEmail(e.target.value);
-    var email = e.target.value;
+  async function metamaskConnection() {
+    web3 = new Web3(window.ethereum);
+    accounts = await web3.eth.getAccounts();
+    await window.ethereum.enable();
+    setWalletAccount(accounts[0]);
 
-    if (validator.isEmail(email)) {
-      setEmailError("");
-      setCheckEmail(true);
-    } else {
-      setCheckEmail(false);
-      setEmailError("Enter valid Email!");
-    }
-  };
+    console.log(walletAccount);
+  }
+  useEffect(() => {
+    metamaskConnection();
+  }, []);
   window.ethereum.on("accountsChanged", async function (accounts) {
     // document.location.reload();
-    const acc = await web3.eth.getAccounts();
-    localStorage.setItem("walletAddress", acc);
-    setWalletAccount(acc);
-    localStorage.setItem("walletAddress", await web3.eth.getAccounts());
+    accounts = await web3.eth.getAccounts();
+    setWalletAccount(accounts[0]);
+    window.location.reload();
   });
-  async function ConnectWallet() {
-    web3 = new Web3(window.ethereum);
-    await window.ethereum.enable();
-    localStorage.setItem("walletAddress", await web3.eth.getAccounts());
-    setWalletAccount(await web3.eth.getAccounts());
-  }
-  function handleSignUp() {
-    localStorage.setItem("username", username);
-    localStorage.setItem("email", email);
-    localStorage.setItem("walletAddress", walletAccount);
 
-    history.push({
-      pathname: "/",
-      // state: { walletAccount },
-    });
+  async function ConnectWallet() {
+    accounts = await web3.eth.getAccounts();
+    setWalletAccount(accounts[0]);
+    authentication = new web3.eth.Contract(auth.abi, config.Authentication);
+
+    try {
+      let result = await authentication.methods
+        .login()
+        .call({ from: accounts[0] });
+      let name = await authentication.methods.bytes32ToString(result).call();
+      console.log("userLogined");
+      localStorage.setItem("username", name);
+      localStorage.setItem("walletAddress", accounts);
+      history.push({
+        pathname: "/",
+        // state: { walletAccount },
+      });
+    } catch (error) {
+      console.log(error);
+      setNotAccount(true);
+    }
+  }
+  async function handleSignUp() {
+    // localStorage.setItem("username", username);
+    // localStorage.setItem("walletAddress", walletAccount);
+
+    try {
+      let bytes32 = await authentication.methods
+        .stringToBytes32(username)
+        .call();
+      try {
+        let result = await authentication.methods
+          .signup(bytes32)
+          .send({ from: accounts[0] });
+        localStorage.setItem("username", username);
+        localStorage.setItem("walletAddress", accounts);
+        history.push({
+          pathname: "/",
+          // state: { walletAccount },
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
   function myFunction() {
     setSignupDiv(true);
@@ -69,14 +100,14 @@ function MainSignIn() {
     }
   }
   function validateForm() {
-    return email.length > 0 && username.length > 0 && checkEmail;
+    return username.length > 0;
   }
   return (
     <>
       <div>
         <div className="max-w-6xl  text-center mb-32 mt-32 mx-auto px-4 sm:px-6">
           {/* Top area: Blocks */}
-          {!walletAccount ? (
+          {!notAccount ? (
             <div>
               <div className=" gridsm:grid-cols-12">
                 <span className=" text-5xl font-medium" data-aos="zoom-y-out">
@@ -140,7 +171,7 @@ function MainSignIn() {
                     address.
                   </span>
                 </div>
-                <div class="box-content  text-left bg-gray-200 h-42 w-42 p-2 py-3">
+                <div className="box-content  text-left bg-gray-200 h-42 w-42 p-2 py-3">
                   <p className="text-xxs font-semibold mt-2 ml-2">ADDRESS</p>
                   <p className="text-xxs font-semibold mt-2 ml-2">
                     {walletAccount}
@@ -152,7 +183,6 @@ function MainSignIn() {
                   >
                     <button
                       className="btn btn-primary text-center"
-                      onClick={ConnectWallet}
                       style={{
                         fontSize: "12px",
                         padding: 20,
@@ -196,7 +226,7 @@ function MainSignIn() {
                 >
                   Create a CarVi Account
                 </span>
-                <div class="box-content rounded-lg text-left bg-gray-200 h-42 w-42 p-2 ">
+                <div className="box-content rounded-lg text-left bg-gray-200 h-42 w-42 p-2 ">
                   <p className="text-xxs font-semibold mt-2 ml-2">ADDRESS</p>
                   <p className="text-xxs font-semibold mt-2 ml-2">
                     {walletAccount}
@@ -211,20 +241,6 @@ function MainSignIn() {
                       style={{ width: 300 }}
                     />
                   </form>
-                </div>
-                <div className="mt-4">
-                  <form className={classes.root}>
-                    <TextField
-                      type="email"
-                      id="standard-basic"
-                      onChange={(e) => validateEmail(e)}
-                      label="Email *"
-                      style={{ width: 300 }}
-                    />
-                  </form>
-                  <span className="text-xs font-bold text-red-500">
-                    {emailError}
-                  </span>
                 </div>
                 <div
                   className="max-w-xs mt-5 mx-auto sm:max-w-none sm:flex sm:justify-center"
