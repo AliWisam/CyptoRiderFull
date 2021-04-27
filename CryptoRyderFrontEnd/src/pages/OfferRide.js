@@ -5,12 +5,27 @@ import Web3 from "web3";
 import "../css/form.css";
 import config from "../config";
 import Swal from "sweetalert2";
+import { makeStyles } from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
 let web3;
 let accounts;
 let rideShare;
 let rideShareJson = require("../contracts/Rideshare.json");
 
+const useStyles = makeStyles((theme) => ({
+  container: {
+    display: "flex",
+    flexWrap: "wrap",
+  },
+  textField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    width: 300,
+  },
+}));
 function OfferRide() {
+  const classes = useStyles();
+
   const [rideForm, setRideForm] = useState({
     carName: "",
     capacity: "",
@@ -48,7 +63,6 @@ function OfferRide() {
     let d = new Date();
     let hours = d.getHours() + 3;
     d.setHours(hours);
-    const unpaidTimeStamp = d.getTime();
     try {
       let res = await rideShare.methods
         .createRide(
@@ -204,18 +218,28 @@ function OfferRide() {
                       </div>
                       <div className="flex -mx-3 mt-5">
                         <div className="w-full px-3 ">
-                          <label for="" className="text-xs font-semibold px-1">
-                            Departure Date
-                          </label>
                           <div className="flex">
                             <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
-                            <input
+                            {/* <input
                               onChange={(e) => onChangeInput(e)}
                               type="date"
                               name="departureDate"
                               className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
                               placeholder="Origin"
-                            />
+                            /> */}
+                            <form className={classes.container} noValidate>
+                              <TextField
+                                onChange={(e) => onChangeInput(e)}
+                                name="departureDate"
+                                label="Departure Date"
+                                type="date"
+                                defaultValue={new Date()}
+                                className={classes.textField}
+                                InputLabelProps={{
+                                  shrink: true,
+                                }}
+                              />
+                            </form>
                           </div>
                         </div>
                       </div>
