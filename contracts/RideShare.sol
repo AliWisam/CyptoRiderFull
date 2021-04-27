@@ -935,6 +935,7 @@ contract Rideshare is  Killable {
      //setting time stamp here
     curRide.unPaidTimestamp = block.timestamp;
      BokkyPooBahsDateTimeLibrary.addMinutes(curRide.unPaidTimestamp, 5);
+     
     
     //paid accounts
     
