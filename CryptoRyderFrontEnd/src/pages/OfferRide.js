@@ -9,6 +9,7 @@ let web3;
 let accounts;
 let rideShare;
 let rideShareJson = require("../contracts/Rideshare.json");
+
 function OfferRide() {
   const [rideForm, setRideForm] = useState({
     carName: "",
@@ -166,7 +167,7 @@ function OfferRide() {
                         </div>
                       </div>
                       <div className="flex -mx-3">
-                        <div className="w-1/2 px-3 mb-5">
+                        <div className="w-1/2 px-3 ">
                           <label for="" className="text-xs font-semibold px-1">
                             Origin
                           </label>
@@ -183,7 +184,7 @@ function OfferRide() {
                             />
                           </div>
                         </div>
-                        <div className="w-1/2 px-3 mb-5">
+                        <div className="w-1/2 px-3 ">
                           <label for="" className="text-xs font-semibold px-1">
                             Destination
                           </label>
@@ -201,9 +202,8 @@ function OfferRide() {
                           </div>
                         </div>
                       </div>
-
-                      <div className="flex -mx-3">
-                        <div className="w-1/2 ">
+                      <div className="flex -mx-3 mt-5">
+                        <div className="w-full px-3 ">
                           <label for="" className="text-xs font-semibold px-1">
                             Departure Date
                           </label>
@@ -218,7 +218,9 @@ function OfferRide() {
                             />
                           </div>
                         </div>
-                        <div className="w-1/2 px-3 ">
+                      </div>
+                      <div className="flex -mx-3 mt-5">
+                        <div className="w-full px-3 mb-12">
                           <label for="" className="text-xs font-semibold px-1">
                             Departure Time
                           </label>
@@ -234,8 +236,9 @@ function OfferRide() {
                           </div>
                         </div>
                       </div>
-                      <div className="flex -mx-3 mt-5">
-                        <div className="w-1/2 ">
+
+                      <div className="flex -mx-3 ">
+                        <div className="w-full px-3 ">
                           <label for="" className="text-xs font-semibold px-1">
                             Arrival Date
                           </label>
@@ -250,7 +253,9 @@ function OfferRide() {
                             />
                           </div>
                         </div>
-                        <div className="w-1/2 px-3 ">
+                      </div>
+                      <div className="flex -mx-3 mt-5">
+                        <div className="w-full px-3 ">
                           <label for="" className="text-xs font-semibold px-1">
                             Arrival Time
                           </label>
@@ -266,7 +271,6 @@ function OfferRide() {
                           </div>
                         </div>
                       </div>
-
                       <div className="flex -mx-3 mt-5">
                         <div className="w-full px-3 mb-12">
                           <label for="" className="text-xs font-semibold px-1">

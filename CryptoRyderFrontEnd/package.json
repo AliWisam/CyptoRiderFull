@@ -20,6 +20,7 @@
     "phosphor-react": "^1.2.1",
     "postcss-cli": "^7.1.2",
     "prop-types": "^15.7.2",
+    "rc-datepicker": "^5.0.16",
     "react": "^16.13.1",
     "react-bootstrap": "^1.5.0",
     "react-dom": "^16.13.1",
