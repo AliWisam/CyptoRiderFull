@@ -707,7 +707,6 @@ contract Rideshare is  Killable {
     string originAddress;
     string destAddress;
     uint createdAt; 
-    uint confirmedAt;//confirmed by
     uint destinationDate;
     uint departureTime;
     uint arrivaltime;
@@ -715,6 +714,7 @@ contract Rideshare is  Killable {
     address[] passengerAccts;
     mapping(address=>bool) hasPaid;
     uint unPaidTimestamp;
+    uint rideStatus;
   }
   
   Ride[] public rides;
@@ -765,9 +765,9 @@ contract Rideshare is  Killable {
     
     rides.push(Ride(msg.sender,_carName ,_driverCost,
     _capacity, _originAddress, _destAddress,
-    block.timestamp, _confirmedAt, _destinationDate,
+    block.timestamp, _destinationDate,
     _departureTime,_arrivaltime,
-    _passengerAccts,now));
+    _passengerAccts,now, 0));
     uint rideCount = getRideCount();
     driverData[msg.sender] = rideCount;
     
@@ -808,7 +808,6 @@ contract Rideshare is  Killable {
     uint _capacity,
     string memory _originAddress,
     string memory _destAddress,
-    uint _createdAt,
     uint _confirmedAt, 
     uint _destinationDate,
     uint _departureTime,
@@ -824,7 +823,6 @@ contract Rideshare is  Killable {
       ride.originAddress,
       ride.destAddress,
       ride.createdAt,
-      ride.confirmedAt,
       ride.destinationDate,
       ride.departureTime,
       ride.arrivaltime,
@@ -848,7 +846,7 @@ contract Rideshare is  Killable {
   
   function cancelRide(uint rideNumber) public{
     Ride storage curRide = rides[rideNumber];
-    require(block.timestamp < curRide.confirmedAt);
+   // require(block.timestamp < curRide.confirmedAt);
     riderData[msg.sender]=0;
     //
     // DriverRides memory dRides;
@@ -876,6 +874,7 @@ contract Rideshare is  Killable {
     // uint(keccak256(abi.encodePacked(source))); was in 0.4.0
     if (keccak256(abi.encodePacked(curRide.passengers[msg.sender].state)) == keccak256("passengersConfirmed")) {
       curRide.passengers[msg.sender].state = "enRoute";
+      curRide.rideStatus = 1;
     } else {
       curRide.passengers[msg.sender].state = "driverConfirmed";
     }
@@ -892,6 +891,7 @@ contract Rideshare is  Killable {
       //string memory curState = curRide.passengers[passengerAddresses[i]].state;
       if (keccak256(abi.encodePacked(curRide.passengers[passengerAddresses[i]].state)) == keccak256("driverConfirmed")) {
         curRide.passengers[passengerAddresses[i]].state = "enRoute";
+        curRide.rideStatus = 1;
         DRides[msg.sender].totalRides++;
         authentication.numberOfRidesTaken(_userAddress);
       } else {
@@ -923,6 +923,7 @@ contract Rideshare is  Killable {
     address _userAddress = curRide.driver;
     address(uint160(curRide.driver)).transfer(curRide.passengers[msg.sender].price);
     curRide.passengers[msg.sender].state = "completion";
+    curRide.rideStatus = 2;
     //for keeping record that this passenger has paid rent
     curRide.hasPaid[msg.sender] = true;
     authentication.driverRating(_userAddress, _rate);
@@ -935,7 +936,6 @@ contract Rideshare is  Killable {
      //setting time stamp here
     curRide.unPaidTimestamp = block.timestamp;
      BokkyPooBahsDateTimeLibrary.addMinutes(curRide.unPaidTimestamp, 5);
-     
     
     //paid accounts
     
@@ -959,7 +959,8 @@ contract Rideshare is  Killable {
   function getMoneyFromUnPaidPassendgers(uint rideNumber) public returns( bool){
     Ride storage curRide = rides[rideNumber];
     uint a = curRide.unPaidTimestamp;
-  
+       curRide.rideStatus = 2;  
+
    
      require(curRide.unPaidTimestamp >=a ,"time not completed to call");
     
@@ -969,7 +970,6 @@ contract Rideshare is  Killable {
     require(Strings.compareTo(curRide.passengers[curRide.passengerAccts[i]].state,
     curRide.passengers[curRide.passengerAccts[i]].state),"this passenger is not in this ride or has paid");
     address(uint160(curRide.driver)).transfer(curRide.passengers[curRide.passengerAccts[i]].price);
-       
     return true;
         
      }
@@ -993,7 +993,7 @@ contract Rideshare is  Killable {
     string memory _originAddress,
     string memory _destAddress,
     uint _createdAt,
-    uint _confirmedAt,
+    //uint _confirmedAt,
     uint _destinationDate,
     uint _departureTime,
     uint _arrivaltime
@@ -1009,7 +1009,7 @@ contract Rideshare is  Killable {
       ride.destAddress,
       ride.createdAt,
       //BokkyPooBahsDateTimeLibrary.timestampToDate(ride.createdAt),
-      ride.confirmedAt,
+
       ride.destinationDate,
       ride.departureTime,
       ride.arrivaltime
@@ -1026,7 +1026,7 @@ contract Rideshare is  Killable {
     string memory _originAddress,
     string memory _destAddress,
     uint _createdAt,
-    uint _confirmedAt,
+   // uint _confirmedAt,
     uint _destinationDate,
     uint _departureTime,
     uint _arrivaltime) {
@@ -1040,7 +1040,7 @@ contract Rideshare is  Killable {
       ride.originAddress,
       ride.destAddress,
       ride.createdAt,
-      ride.confirmedAt,
+     // ride.confirmedAt,
       ride.destinationDate,
       ride.departureTime,
       ride.arrivaltime
@@ -1057,7 +1057,7 @@ contract Rideshare is  Killable {
     string memory _originAddress,
     string memory _destAddress,
     uint _createdAt,
-    uint _confirmedAt,
+   // uint _confirmedAt,
     uint _destinationDate,
     uint _departureTime,
     uint _arrivaltime) {
@@ -1071,7 +1071,7 @@ contract Rideshare is  Killable {
       ride.originAddress,
       ride.destAddress,
       ride.createdAt,
-      ride.confirmedAt,
+     // ride.confirmedAt,
       ride.destinationDate,
       ride.departureTime,
       ride.arrivaltime
@@ -1087,7 +1087,7 @@ contract Rideshare is  Killable {
     uint _capacity,
     string memory _originAddress,
     string memory _destAddress,
-    uint _createdAt,
+   // uint _createdAt,
     uint _confirmedAt,
     uint _destinationDate,
     uint _departureTime,
@@ -1102,7 +1102,7 @@ contract Rideshare is  Killable {
       ride.originAddress,   
       ride.destAddress,
       ride.createdAt,
-      ride.confirmedAt,
+     // ride.confirmedAt,
       ride.destinationDate,
       ride.departureTime,
       ride.arrivaltime

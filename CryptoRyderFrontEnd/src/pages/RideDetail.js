@@ -23,11 +23,15 @@ const auth = require("../contracts/Authentication.json");
 function RideDetail() {
   let history = useHistory();
   const { id } = useParams();
-  let driverRate;
   const [driverRating, setDriverRating] = useState(0);
   const [RideData, setRideData] = useState("");
   const [itemData, setItemData] = useState("");
-  const [driverData, setDriverData] = useState("");
+  const [boolChecks, setBoolChecks] = useState({
+    noPlaceLeft: false,
+    driverAlready: false,
+    riderAlready: false,
+  });
+
   const [LoaderSpin, setLoader] = useState(true);
   const RideBook = async () => {
     let res = await rideShare.methods
@@ -69,6 +73,23 @@ function RideDetail() {
       let driverRating;
       try {
         promiseArr = await rideShare.methods.rides(id).call();
+        let riderData = await rideShare.methods
+          .getRiderData()
+          .call({ from: accounts[0] });
+        let driverData = await rideShare.methods
+          .getDriverData()
+          .call({ from: accounts[0] });
+        let totalRiders = await rideShare.methods.getPassengers(id).call();
+        let totalSpace = promiseArr.capacity - totalRiders.length;
+        if (totalSpace <= 0) {
+          setBoolChecks({ noPlaceLeft: true });
+        }
+        if (riderData > 0 && riderData - 1 === parseInt(id)) {
+          setBoolChecks({ riderAlready: true });
+        }
+        if (driverData > 0 && driverData - 1 === parseInt(id)) {
+          setBoolChecks({ driverAlready: true });
+        }
         let d = promiseArr.driver;
         expectedPayment = parseInt(promiseArr.drivingCost);
 
@@ -91,7 +112,6 @@ function RideDetail() {
             data.driverName = driverName;
             setDriverRating(driverRating);
             setItemData(res[0]);
-            setDriverData(res[1]);
             setRideData(data);
             setLoader(false);
           }
@@ -214,14 +234,45 @@ function RideDetail() {
                           <Icons.Car size={48} />
                         </div>
                       </div>
-                      <div className="text-center mt-20">
-                        <button
-                          onClick={RideBook}
-                          className="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-3 font-semibold"
-                        >
-                          BOOK THIS RIDE
-                        </button>{" "}
-                      </div>
+                      {!boolChecks.driverAlready &&
+                      !boolChecks.riderAlready &&
+                      !boolChecks.noPlaceLeft ? (
+                        <>
+                          <div className="text-center mt-20">
+                            <button
+                              onClick={RideBook}
+                              className="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-3 font-semibold"
+                            >
+                              BOOK THIS RIDE
+                            </button>{" "}
+                          </div>
+                        </>
+                      ) : null}
+                      {boolChecks.driverAlready ? (
+                        <>
+                          <div className="mt-5 text-center font-bold text-red">
+                            <span style={{ color: "red" }}>
+                              You can not book your own Ride
+                            </span>
+                          </div>
+                        </>
+                      ) : null}
+                      {boolChecks.riderAlready ? (
+                        <>
+                          <div className="mt-5 text-center font-bold text-red">
+                            <span style={{ color: "red" }}>
+                              You can not book the same Ride
+                            </span>
+                          </div>
+                        </>
+                      ) : null}
+                      {boolChecks.noPlaceLeft ? (
+                        <>
+                          <div className="mt-5 text-center font-bold text-red">
+                            <span style={{ color: "red" }}>HouseFull !!</span>
+                          </div>
+                        </>
+                      ) : null}
                     </div>
                   </div>
                 </>

@@ -46,24 +46,26 @@ function Search() {
 
     try {
       let rideCount = await rideShare.methods.getRideCount().call();
-      console.log(rideCount);
       let promiseArr = [];
       let promiseArr2 = [];
       let driverName = [];
       let rideId = [];
       let driverRating = [];
+      let placesLeft = [];
       let j = 0;
 
       try {
         for (let i = 0; i < rideCount; i++) {
           let res = await rideShare.methods.rides(i).call();
-          // console.log(res.originAddress);
-          // console.log(res.destAddress);
+
           console.log(res);
           if (
             res.originAddress === searchForm.origin &&
-            res.destAddress === searchForm.destination
+            res.destAddress === searchForm.destination &&
+            res.rideStatus == 0
           ) {
+            let totalRiders = await rideShare.methods.getPassengers(i).call();
+            placesLeft.push(res.capacity - totalRiders.length);
             promiseArr.push(res);
             let d = promiseArr[j].driver;
             promiseArr2.push(await authentication.methods.users(d).call());
@@ -97,7 +99,7 @@ function Search() {
               return {
                 item: item,
                 rideId: rideId[index],
-
+                placesLeft: placesLeft[index],
                 departureTime: dep,
                 arrivalTime: arr,
               };
@@ -153,26 +155,33 @@ function Search() {
       let driverName = [];
       let rideId = [];
       let driverRating = [];
+      let placesLeft = [];
+      let j = 0;
 
       try {
         for (let i = 0; i < rideCount; i++) {
           let res = await rideShare.methods.rides(i).call();
 
-          promiseArr.push(res);
-          let d = promiseArr[i].driver;
+          if (res.rideStatus == 0) {
+            let totalRiders = await rideShare.methods.getPassengers(i).call();
+            placesLeft.push(res.capacity - totalRiders.length);
 
-          promiseArr2.push(
-            await authentication.methods.users(d).call({ from: accounts[0] })
-          );
+            promiseArr.push(res);
+            let d = res.driver;
+            let userData = await authentication.methods
+              .users(d)
+              .call({ from: accounts[0] });
 
-          let name = promiseArr2[i].name;
-          driverRating.push(promiseArr2[i].driverRating);
-          console.log(promiseArr2[i].driverRating);
+            promiseArr2.push(userData);
 
-          driverName.push(
-            await authentication.methods.bytes32ToString(name).call()
-          );
-          rideId.push(i);
+            let name = userData.name;
+            driverRating.push(userData.driverRating);
+
+            driverName.push(
+              await authentication.methods.bytes32ToString(name).call()
+            );
+            rideId.push(i);
+          }
         }
         Promise.all(promiseArr).then((response) => {
           Promise.all(promiseArr2).then(async (res) => {
@@ -192,7 +201,7 @@ function Search() {
               return {
                 item: item,
                 rideId: rideId[index],
-
+                placesLeft: placesLeft[index],
                 departureTime: dep,
                 arrivalTime: arr,
               };
@@ -349,7 +358,11 @@ function Search() {
                               </div>
                               <div className="col-span-6 mt-3 text-right ">
                                 <span className="text-base font-extrabold">
-                                  {/* {d.rideId} Places Left */}
+                                  {d.placesLeft > 1 ? (
+                                    <>{d.placesLeft} Places Left</>
+                                  ) : (
+                                    <>{d.placesLeft} Place Left</>
+                                  )}
                                 </span>
                               </div>
                             </div>

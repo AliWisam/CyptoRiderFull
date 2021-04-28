@@ -76,10 +76,18 @@ function MyDrives() {
     if (rideId > 0) {
       rideId = rideId - 1;
       let totalRiders = await rideShare.methods.getPassengers(rideId).call();
+      let res = await rideShare.methods.rides(rideId).call();
+      console.log(res.rideStatus);
       setRiders(totalRiders);
       let statusArr = [];
       let count = 0;
       let count2 = 0;
+      if (res.rideStatus == 1) {
+        setToPay(true);
+      }
+      if (res.rideStatus == 2) {
+        setRatingBool(true);
+      }
 
       for (let i = 0; i < totalRiders.length; i++) {
         let status = await rideShare.methods
@@ -91,9 +99,10 @@ function MyDrives() {
         if (status === "completion") {
           count2++;
         }
-        if (status === "enRoute") {
-          setToPay(true);
-        }
+
+        // if (status === "enRoute") {
+        //   setToPay(true);
+        // }
         statusArr.push(status);
       }
       Promise.all(statusArr).then((response) => {
@@ -392,21 +401,35 @@ function MyDrives() {
                               <>
                                 <div className="mt-5 text-xs ">
                                   <button
+                                    className="btn btn-primary text-center"
                                     onClick={ConfirmPassengers}
-                                    className=" btn btn-success px-5"
+                                    style={{
+                                      fontSize: "12px",
+                                      padding: 22,
+                                      width: 300,
+                                      fontWeight: "bold",
+                                    }}
                                   >
-                                    Confirm Passengers Met
+                                    {" "}
+                                    Confirm Passengers Met{" "}
                                   </button>
                                 </div>
                               </>
                             ) : null}
                             {toPay ? (
                               <>
-                                <div className="mt-5 text-xs ">
+                                <div className="mt-5 text-xs  ">
                                   <button
+                                    className="btn btn-success text-center"
                                     onClick={getPaid}
-                                    className=" btn btn-success px-5"
+                                    style={{
+                                      fontSize: "12px",
+                                      padding: 22,
+                                      width: 300,
+                                      fontWeight: "bold",
+                                    }}
                                   >
+                                    {" "}
                                     Get paid from Unpaid passengers
                                   </button>
                                 </div>

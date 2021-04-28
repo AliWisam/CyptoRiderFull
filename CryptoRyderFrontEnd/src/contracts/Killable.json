@@ -263,7 +263,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 4085,
+                        "referencedDeclaration": 4081,
                         "src": "858:3:1",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -567,10 +567,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        4088,
-                        4089
+                        4084,
+                        4085
                       ],
-                      "referencedDeclaration": 4088,
+                      "referencedDeclaration": 4084,
                       "src": "1156:7:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -641,7 +641,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 4085,
+                        "referencedDeclaration": 4081,
                         "src": "1324:3:1",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -1243,10 +1243,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        4088,
-                        4089
+                        4084,
+                        4085
                       ],
-                      "referencedDeclaration": 4088,
+                      "referencedDeclaration": 4084,
                       "src": "2197:7:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -1681,7 +1681,7 @@
                       "name": "selfdestruct",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 4093,
+                      "referencedDeclaration": 4089,
                       "src": "2461:12:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_selfdestruct_nonpayable$_t_address_payable_$returns$__$",
@@ -1991,7 +1991,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 4085,
+                                  "referencedDeclaration": 4081,
                                   "type": "msg",
                                   "value": "msg"
                                 },
@@ -2287,10 +2287,10 @@
                                 }
                               ],
                               "overloadedDeclarations": [
-                                4088,
-                                4089
+                                4084,
+                                4085
                               ],
-                              "referencedDeclaration": 4088,
+                              "referencedDeclaration": 4084,
                               "type": "function (bool) pure",
                               "value": "require"
                             },
@@ -2462,7 +2462,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 4085,
+                                  "referencedDeclaration": 4081,
                                   "type": "msg",
                                   "value": "msg"
                                 },
@@ -3036,10 +3036,10 @@
                                 }
                               ],
                               "overloadedDeclarations": [
-                                4088,
-                                4089
+                                4084,
+                                4085
                               ],
-                              "referencedDeclaration": 4088,
+                              "referencedDeclaration": 4084,
                               "type": "function (bool) pure",
                               "value": "require"
                             },
@@ -3588,7 +3588,7 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 4093,
+                              "referencedDeclaration": 4089,
                               "type": "function (address payable)",
                               "value": "selfdestruct"
                             },
@@ -3646,7 +3646,7 @@
   },
   "networks": {},
   "schemaVersion": "3.3.4",
-  "updatedAt": "2021-04-26T06:52:34.901Z",
+  "updatedAt": "2021-04-28T17:49:56.050Z",
   "devdoc": {
     "methods": {
       "isOwner()": {
