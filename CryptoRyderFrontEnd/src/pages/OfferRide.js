@@ -5,6 +5,7 @@ import Web3 from "web3";
 import "../css/form.css";
 import config from "../config";
 import Swal from "sweetalert2";
+import * as Icons from "phosphor-react";
 let web3;
 let accounts;
 let rideShare;
@@ -132,6 +133,10 @@ function OfferRide() {
                       </h1>
                       <p>Enter your information to create</p>
                     </div>
+                    {/* <div class="text-center md:px-0 lg:px-0 ">
+                      
+                      <i className="fas fa-user"></i>
+                    </div> */}
                     <div>
                       <div className="flex -mx-3">
                         <div className="w-1/2 px-3 mb-5">

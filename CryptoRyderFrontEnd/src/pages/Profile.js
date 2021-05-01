@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 
 import Header from "../partials/Header";
 import Footer from "../partials/Footer";
-import * as Icons from "phosphor-react";
 import Web3 from "web3";
+import ReactStars from "react-rating-stars-component";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import Loader from "react-loader-spinner";
 
 import config from "../config";
 
@@ -15,11 +17,19 @@ const auth = require("../contracts/Authentication.json");
 
 function Profile() {
   const [editable, setEditable] = useState(false);
+  const [driverRating, setDriverRating] = useState(0);
+  const [riderRating, setRiderRating] = useState(0);
+  const [numberOfRidesGiven, setNumberOfRidesGiven] = useState(0);
+
   const [user, setUser] = useState({
     name: "",
-    age: 0,
+    age: "",
     phone: "",
+
+    numberOfRidesTaken: "",
   });
+  const [LoaderSpin, setLoader] = useState(true);
+
   const EditSetter = (e) => {
     setEditable(!editable);
   };
@@ -29,6 +39,7 @@ function Profile() {
   const submitEdit = async (event) => {
     event.preventDefault();
     let name = await authentication.methods.stringToBytes32(user.name).call();
+
     let res = await authentication.methods
       .update(name, user.age, user.phone)
       .send({ from: accounts[0] });
@@ -41,14 +52,19 @@ function Profile() {
     accounts = await web3.eth.getAccounts();
     await window.ethereum.enable();
     authentication = new web3.eth.Contract(auth.abi, config.Authentication);
-    let res = await authentication.methods
-      .getUserData(localStorage.getItem("walletAddress"))
-      .call();
-    console.log(res);
+    let res = await authentication.methods.users(accounts[0]).call();
     let Fname = await authentication.methods.bytes32ToString(res.name).call();
+    let riderRating = res.riderRating;
+    let driverRating = res.driverRating;
+    setRiderRating(riderRating);
+    setDriverRating(driverRating);
+    console.log(res);
     setUser({ name: Fname });
     setUser({ phone: res.phoneNumber });
     setUser({ age: res.age });
+    setNumberOfRidesGiven(res.numberOfRidesGiven);
+    setUser({ numberOfRidesTaken: res.numberOfRidesTaken });
+    setLoader(false);
   }
   useEffect(() => {
     metamaskConnection();
@@ -78,82 +94,189 @@ function Profile() {
               </div>
             </div>
           </div>
-        </div>
-        {/*component*/}
-        <div className="bg-white mt-32 shadow-2xl rounded lg:w-4/12 md:6/12 w-10/12 m-auto my-10 ">
-          <div className="py-8 px-8 rounded-2xl shadow-2xl">
-            <h1 className="font-medium text-2xl mt-3 text-center">Profile</h1>
-            <div className="mt-6">
-              <div className="my-5 text-sm">
-                <label for="username" className="block text-black">
-                  Name
-                </label>
-                <input
-                  type="text"
-                  autofocus
-                  name="name"
-                  onChange={onChangeInput}
-                  className="rounded-sm shadow-2xl px-4 py-3 mt-3 focus:outline-none bg-gray-100 w-full"
-                  placeholder="Name"
-                  value={user.name}
-                  disabled={!editable}
-                />
-              </div>
-              <div className="my-5 text-sm">
-                <label for="password" className="block text-black">
-                  Age
-                </label>
-                <input
-                  onChange={onChangeInput}
-                  type="number"
-                  name="age"
-                  defaultValue={user.age}
-                  className="rounded-sm shadow-2xl px-4 py-3 mt-3 focus:outline-none bg-gray-100 w-full"
-                  placeholder="Age"
-                  min="0"
-                  disabled={!editable}
-                />
-                <div className="my-5 text-sm">
-                  <label for="username" className="block text-black">
-                    Phone No:
-                  </label>
-                  <input
-                    onChange={onChangeInput}
-                    type="text"
-                    autofocus
-                    name="phone"
-                    className="rounded-sm shadow-2xl px-4 py-3 mt-3 focus:outline-none bg-gray-100 w-full"
-                    placeholder="Phone"
-                    value={user.phone}
-                    disabled={!editable}
-                  />
-                </div>
-                <div className="flex justify-end mt-2 text-lg text-gray-600">
-                  <button
-                    onClick={EditSetter}
-                    className="fas  fa-edit"
-                  ></button>
-                </div>
-              </div>
 
-              <button
-                className="btn btn-primary text-center"
-                onClick={submitEdit}
-                disabled={!editable}
-                style={{
-                  fontSize: "12px",
-                  padding: 22,
-                  width: 300,
-                  backgroundColor: "black",
-                  borderColor: "black",
-                  fontWeight: "bold",
-                }}
-              >
-                {" "}
-                Edit
-              </button>
+          {!driverRating || !riderRating ? (
+            <div className="container text-center">
+              <Loader type="Circles" color="blue" height={100} width={100} />
             </div>
-          </div>
+          ) : (
+            <div className="px-4 md:px-10 mx-auto w-full -m-24">
+              <div className="min-w-screen mt-32 min-h-screen flex items-center justify-center  py-5">
+                <div
+                  className=" text-gray-500 rounded-3xl  w-full overflow-hidden"
+                  style={{ maxWidth: "1000px" }}
+                >
+                  <div className="md:flex w-full">
+                    <div className="hidden md:block w-1/2  py-10 mt-32">
+                      <img src="https://cdn.blablacar.com/kairos/assets/build/images/indicate-your-route-fef6b1a4c9dac38c77c092858d73add3.svg" />
+                    </div>
+                    <div className="w-full shadow-2xl md:w-1/2 py-10 px-5 md:px-10">
+                      <div class="text-center md:px-0 lg:px-0 ">
+                        <i
+                          className="fas fa-user text-6xl mb-5"
+                          style={{ color: "#007bff" }}
+                        ></i>
+                      </div>
+                      <div>
+                        <div className="flex -mx-3">
+                          <div className="w-1/2 px-3 mb-5">
+                            <label
+                              for=""
+                              className="text-xs font-semibold px-1"
+                            >
+                              Driver Rating
+                            </label>
+                            <div className="flex">
+                              <ReactStars
+                                count={5}
+                                size={20}
+                                edit={false}
+                                activeColor="#ffd700"
+                                value={driverRating}
+                              />
+                            </div>
+                          </div>
+
+                          <div className="w-1/2  mb-5 lg:ml-40 ">
+                            <label
+                              for=""
+                              className="text-xs font-semibold px-1"
+                            >
+                              Rider Rating
+                            </label>
+                            <div>
+                              <ReactStars
+                                count={5}
+                                size={20}
+                                edit={false}
+                                activeColor="#ffd700"
+                                value={riderRating}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div className="flex -mx-3">
+                          <div className="w-1/2 px-3 mb-5">
+                            <label
+                              for=""
+                              className="text-xs font-semibold px-1"
+                            >
+                              Rides Given
+                            </label>
+                            <div className="flex ml-2">
+                              <span>{numberOfRidesGiven}</span>
+                            </div>
+                          </div>
+
+                          <div className="w-1/2  mb-5 lg:ml-40 ">
+                            <label
+                              for=""
+                              className="text-xs font-semibold px-1"
+                            >
+                              Rides Taken
+                            </label>
+                            <div className="flex ml-2">
+                              <span>{user.numberOfRidesTaken}</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="flex -mx-3 mt-4">
+                          <div className="w-full px-3 ">
+                            <label
+                              for=""
+                              className="text-xs font-semibold px-1"
+                            >
+                              Name
+                            </label>
+                            <div className="flex">
+                              <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
+                              <input
+                                type="text"
+                                autofocus
+                                name="name"
+                                onChange={onChangeInput}
+                                className="w-full -ml-10 pl-20 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
+                                placeholder="Name"
+                                value={user.name}
+                                disabled={!editable}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div className="flex -mx-3 mt-4">
+                          <div className="w-full px-3 ">
+                            <label
+                              for=""
+                              className="text-xs font-semibold px-1"
+                            >
+                              Age
+                            </label>
+                            <div className="flex">
+                              <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
+                              <input
+                                onChange={onChangeInput}
+                                name="age"
+                                value={user.age}
+                                className="w-full -ml-10 pl-20 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
+                                placeholder="Age"
+                                disabled={!editable}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div className="flex -mx-3 mt-4">
+                          <div className="w-full px-3 ">
+                            <label
+                              for=""
+                              className="text-xs font-semibold px-1"
+                            >
+                              Phone No
+                            </label>
+                            <div className="flex">
+                              <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
+                              <input
+                                onChange={onChangeInput}
+                                type="text"
+                                autofocus
+                                name="phone"
+                                className="w-full -ml-10 pl-20 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
+                                placeholder="Phone"
+                                value={user.phone}
+                                disabled={!editable}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div className="flex -mx-3 ">
+                          <div className="w-full px-5  mt-5">
+                            <div className="flex justify-start mt-2 text-lg text-gray-600">
+                              <button
+                                onClick={EditSetter}
+                                className="fas  fa-edit"
+                              ></button>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="flex -mx-3 ">
+                          <div className="w-full px-5 ml-5 mb-5 mt-5">
+                            <button
+                              // onClick={SubmitForm}
+                              className="btn btn-primary w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-3 font-semibold"
+                              onClick={submitEdit}
+                              disabled={!editable}
+                            >
+                              Edit
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
         <Footer />
