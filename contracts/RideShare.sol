@@ -942,11 +942,16 @@ contract Rideshare is  Killable {
     return curRide.drivingCost;
   }
   //called by driver
-  function riderRating(uint rideNumber, uint _rate) public{
+  function riderRating(uint rideNumber, uint _rate) public returns(uint){
     Ride storage curRide = rides[rideNumber];
-    address _userAddress = curRide.driver;
+    //address _userAddress = curRide.driver;
+     address[] memory a = getPassengers(rideNumber);
+    for(uint i = 0; i < a.length; i++){
+        authentication.riderRating(a[i], _rate);
+    }
     
-    authentication.riderRating(_userAddress,_rate);
+    return a.length;
+   // authentication.riderRating(_userAddress,_rate);
     
   }
   
