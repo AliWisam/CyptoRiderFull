@@ -12,7 +12,7 @@ import config from "../config";
 let web3;
 let accounts;
 let authentication;
-
+let name, age, phone;
 const auth = require("../contracts/Authentication.json");
 
 function Profile() {
@@ -20,6 +20,7 @@ function Profile() {
   const [driverRating, setDriverRating] = useState(0);
   const [riderRating, setRiderRating] = useState(0);
   const [numberOfRidesGiven, setNumberOfRidesGiven] = useState(0);
+  const [userAge, setAge] = useState("");
 
   const [user, setUser] = useState({
     name: "",
@@ -33,15 +34,24 @@ function Profile() {
   const EditSetter = (e) => {
     setEditable(!editable);
   };
-  const onChangeInput = (e) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
+
+  const onChangeName = (e) => {
+    name = e.target.value;
   };
+  const onChangeAge = (e) => {
+    setAge(e.target.value);
+  };
+  const onChangePhone = (e) => {
+    phone = e.target.value;
+  };
+
   const submitEdit = async (event) => {
     event.preventDefault();
-    let name = await authentication.methods.stringToBytes32(user.name).call();
-
+    let ConvertedName = await authentication.methods
+      .stringToBytes32(name)
+      .call();
     let res = await authentication.methods
-      .update(name, user.age, user.phone)
+      .update(ConvertedName, userAge, phone)
       .send({ from: accounts[0] });
     console.log(res);
     window.location.reload();
@@ -58,7 +68,10 @@ function Profile() {
     let driverRating = res.driverRating;
     setRiderRating(riderRating);
     setDriverRating(driverRating);
-    console.log(res);
+    name = Fname;
+    phone = res.phoneNumber;
+
+    setAge(res.age);
     setUser({ name: Fname });
     setUser({ phone: res.phoneNumber });
     setUser({ age: res.age });
@@ -195,10 +208,10 @@ function Profile() {
                                 type="text"
                                 autofocus
                                 name="name"
-                                onChange={onChangeInput}
+                                onChange={onChangeName}
                                 className="w-full -ml-10 pl-20 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
                                 placeholder="Name"
-                                value={user.name}
+                                defaultValue={name}
                                 disabled={!editable}
                               />
                             </div>
@@ -215,9 +228,9 @@ function Profile() {
                             <div className="flex">
                               <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
                               <input
-                                onChange={onChangeInput}
+                                onChange={onChangeAge}
                                 name="age"
-                                value={user.age}
+                                defaultValue={age}
                                 className="w-full -ml-10 pl-20 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
                                 placeholder="Age"
                                 disabled={!editable}
@@ -236,13 +249,13 @@ function Profile() {
                             <div className="flex">
                               <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
                               <input
-                                onChange={onChangeInput}
+                                onChange={onChangePhone}
                                 type="text"
                                 autofocus
                                 name="phone"
                                 className="w-full -ml-10 pl-20 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
                                 placeholder="Phone"
-                                value={user.phone}
+                                defaultValue={phone}
                                 disabled={!editable}
                               />
                             </div>

@@ -4,7 +4,7 @@ import './Killable.sol';
 contract Authentication is Killable {
   struct User {
     bytes32 name;
-    uint8 age;
+    uint256 age;
     uint256 phoneNumber;
     uint driverRating;
     uint riderRating;
@@ -31,7 +31,7 @@ contract Authentication is Killable {
     _;
   }
   modifier onlyValidFields(
-    uint8 age,
+    uint256 age,
     uint256 phoneNumber) {
     //updating phoneNumber and age
     require(!(age <= 0 && phoneNumber <= 0 ),"error in field values");
@@ -86,14 +86,14 @@ contract Authentication is Killable {
   
 
   function update(bytes32 name,
-    uint8 age,
+    uint256 age,
     uint256 phoneNumber)
   public
   payable
   onlyValidName(name)
   onlyExistingUser
   onlyValidFields(age,phoneNumber)
-  returns (bytes32, uint8, uint256) {
+  returns (bytes32, uint256, uint256) {
     // Update user name.
 
      if (users[msg.sender].name != 0x0 )

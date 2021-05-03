@@ -1,5 +1,5 @@
 const config = {
-  Authentication: "0x33371e1f0582b138FdCD30834Db605c74808f545",
-  RideShare: "0x24AdE055dC3a0bB7f7124bFCf7b680b7F917E2A9",
+  Authentication: "0x2f6E7D7ED3c22a0C0ED9b4c0CF02410410169E0f",
+  RideShare: "0x807AF0F0aD0EB91c83569AEEF92f743DE08bea5b",
 };
 export default config;
