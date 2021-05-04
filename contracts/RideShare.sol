@@ -898,8 +898,7 @@ contract Rideshare is  Killable {
         authentication.numberOfRidesTaken(passengerAddresses[i]);
       } else {
         curRide.passengers[passengerAddresses[i]].state = "passengersConfirmed";
-        DRides[msg.sender].totalRides++;
-        
+
       }
     }
     // require(rides[rideNumber].state == "confirmed");
