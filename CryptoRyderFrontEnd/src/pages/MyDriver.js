@@ -285,7 +285,7 @@ function MyDrives() {
                             </div>
                             <div className="col-span-4 mt-3 text-right ">
                               <span className="text-base font-extrabold">
-                                {itemData.drivingCost} WEI
+                                {itemData.drivingCost} ETH
                               </span>
                             </div>
                           </div>

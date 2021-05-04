@@ -6,6 +6,7 @@ import Web3 from "web3";
 import ReactStars from "react-rating-stars-component";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Loader from "react-loader-spinner";
+import Swal from "sweetalert2";
 
 import config from "../config";
 
@@ -47,14 +48,23 @@ function Profile() {
 
   const submitEdit = async (event) => {
     event.preventDefault();
-    let ConvertedName = await authentication.methods
-      .stringToBytes32(name)
-      .call();
-    let res = await authentication.methods
-      .update(ConvertedName, userAge, phone)
-      .send({ from: accounts[0] });
-    console.log(res);
-    window.location.reload();
+
+    if (!phone || !userAge) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Invalid Phone or Age!",
+      });
+    } else {
+      let ConvertedName = await authentication.methods
+        .stringToBytes32(name)
+        .call();
+      let res = await authentication.methods
+        .update(ConvertedName, userAge, phone)
+        .send({ from: accounts[0] });
+      console.log(res);
+      window.location.reload();
+    }
   };
 
   async function metamaskConnection() {
@@ -229,6 +239,8 @@ function Profile() {
                               <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
                               <input
                                 onChange={onChangeAge}
+                                type="number"
+                                min={0}
                                 name="age"
                                 defaultValue={userAge}
                                 className="w-full -ml-10 pl-20 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
@@ -250,7 +262,8 @@ function Profile() {
                               <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
                               <input
                                 onChange={onChangePhone}
-                                type="text"
+                                type="number"
+                                min={0}
                                 autofocus
                                 name="phone"
                                 className="w-full -ml-10 pl-20 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
@@ -277,7 +290,7 @@ function Profile() {
                               // onClick={SubmitForm}
                               className="btn btn-primary w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-3 font-semibold"
                               onClick={submitEdit}
-                              disabled={!editable}
+                              disabled={!editable || !userAge}
                             >
                               Edit
                             </button>

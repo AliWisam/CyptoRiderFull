@@ -57,8 +57,6 @@ function Search() {
       try {
         for (let i = 0; i < rideCount; i++) {
           let res = await rideShare.methods.rides(i).call();
-
-          console.log(res);
           if (
             res.originAddress === searchForm.origin &&
             res.destAddress === searchForm.destination &&
@@ -95,7 +93,6 @@ function Search() {
               let dep = convertDateTime(item.departureTime);
 
               let arr = convertDateTime(item.arrivaltime);
-
               return {
                 item: item,
                 rideId: rideId[index],
@@ -161,7 +158,7 @@ function Search() {
       try {
         for (let i = 0; i < rideCount; i++) {
           let res = await rideShare.methods.rides(i).call();
-
+          console.log(res);
           if (res.rideStatus == 0) {
             let totalRiders = await rideShare.methods.getPassengers(i).call();
             placesLeft.push(res.capacity - totalRiders.length);
@@ -335,7 +332,7 @@ function Search() {
                               </div>
                               <div className="col-span-4 mt-3 text-right ">
                                 <span className="text-base font-extrabold">
-                                  {d.item.drivingCost} WEI
+                                  {d.item.drivingCost} ETH
                                 </span>
                               </div>
                             </div>

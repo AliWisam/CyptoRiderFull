@@ -887,17 +887,19 @@ contract Rideshare is  Killable {
     require(msg.sender == curRide.driver);
     address _userAddress = curRide.driver;
     
+    authentication.numberOfRidesGiven(_userAddress);
+    DRides[msg.sender].totalRides++;
     for(uint i=0; i < passengerAddresses.length; i++) {
       //string memory curState = curRide.passengers[passengerAddresses[i]].state;
       if (keccak256(abi.encodePacked(curRide.passengers[passengerAddresses[i]].state)) == keccak256("driverConfirmed")) {
         curRide.passengers[passengerAddresses[i]].state = "enRoute";
         curRide.rideStatus = 1;
-        DRides[msg.sender].totalRides++;
-        authentication.numberOfRidesTaken(_userAddress);
+        
+        authentication.numberOfRidesTaken(passengerAddresses[i]);
       } else {
         curRide.passengers[passengerAddresses[i]].state = "passengersConfirmed";
         DRides[msg.sender].totalRides++;
-        authentication.numberOfRidesTaken(_userAddress);
+        
       }
     }
     // require(rides[rideNumber].state == "confirmed");

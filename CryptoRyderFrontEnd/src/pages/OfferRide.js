@@ -296,7 +296,7 @@ function OfferRide() {
                           </label>
                           <div className="flex">
                             <div className="w-10 z-10 pl-5 text-center pointer-events-none flex items-center justify-center">
-                              <i>wei</i>
+                              <i>eth</i>
                             </div>
                             <input
                               onChange={(e) => onChangeInput(e)}

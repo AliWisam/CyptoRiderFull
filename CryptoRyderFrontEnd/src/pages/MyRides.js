@@ -24,7 +24,7 @@ const auth = require("../contracts/Authentication.json");
 function MyRides() {
   let history = useHistory();
   const [driverRating, setDriverRating] = useState(0);
-  const [rating, setRating] = useState("");
+  const [rating, setRating] = useState(0);
   const [DateHeader, setDateHeader] = useState("");
   const [noRide, setNoRide] = useState(false);
   const [RideData, setRideData] = useState("");
@@ -232,7 +232,7 @@ function MyRides() {
                             </div>
                             <div className="col-span-4 mt-3 text-right ">
                               <span className="text-base font-extrabold">
-                                {itemData.drivingCost} WEI
+                                {itemData.drivingCost} ETH
                               </span>
                             </div>
                           </div>
