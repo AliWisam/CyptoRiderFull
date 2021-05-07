@@ -72,9 +72,9 @@ function MyRides() {
     rideId = await rideShare.methods
       .getRiderData()
       .call({ from: localStorage.getItem("walletAddress") });
+    console.log(rideId);
     if (rideId > 0) {
       rideId = rideId - 1;
-
       let status = await rideShare.methods
         .getPassengerRideState(rideId, localStorage.getItem("walletAddress"))
         .call();
@@ -136,6 +136,7 @@ function MyRides() {
         console.log(error);
       }
     } else {
+      setLoader(false);
       setNoRide(true);
     }
   }
@@ -144,7 +145,9 @@ function MyRides() {
       let res = await rideShare.methods
         .cancelRide(rideId)
         .send({ from: accounts[0] });
+
       console.log(res);
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }

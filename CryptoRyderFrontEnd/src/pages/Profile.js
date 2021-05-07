@@ -73,6 +73,7 @@ function Profile() {
     await window.ethereum.enable();
     authentication = new web3.eth.Contract(auth.abi, config.Authentication);
     let res = await authentication.methods.users(accounts[0]).call();
+    console.log(res);
     let Fname = await authentication.methods.bytes32ToString(res.name).call();
     let riderRating = res.riderRating;
     let driverRating = res.driverRating;

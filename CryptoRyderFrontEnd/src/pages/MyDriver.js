@@ -198,6 +198,7 @@ function MyDrives() {
         timer: 1500,
       });
       setPaidMoney(true);
+      window.location.reload();
     } catch (error) {
       Swal.fire({
         icon: "error",

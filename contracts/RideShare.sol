@@ -928,7 +928,6 @@ contract Rideshare is  Killable {
     //for keeping record that this passenger has paid rent
     curRide.hasPaid[msg.sender] = true;
     authentication.driverRating(_userAddress, _rate);
-    authentication.numberOfRidesGiven(_userAddress);
     DRides[curRide.driver].totalEarning += curRide.drivingCost;
     //destinationDate
     curRide.destinationDate = block.timestamp;
