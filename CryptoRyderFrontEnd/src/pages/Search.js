@@ -332,7 +332,7 @@ function Search() {
                               </div>
                               <div className="col-span-4 mt-3 text-right ">
                                 <span className="text-base font-extrabold">
-                                  {d.item.drivingCost} ETH
+                                  {d.item.drivingCost} WEI
                                 </span>
                               </div>
                             </div>

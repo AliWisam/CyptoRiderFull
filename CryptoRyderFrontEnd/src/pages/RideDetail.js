@@ -196,7 +196,7 @@ function RideDetail() {
                         </div>
                         <div className="col-span-4 mt-3 text-right ">
                           <span className="text-base font-extrabold">
-                            {itemData.drivingCost} ETH
+                            {itemData.drivingCost} WEI
                           </span>
                         </div>
                       </div>

@@ -5,7 +5,9 @@ import Web3 from "web3";
 import "../css/form.css";
 import config from "../config";
 import Swal from "sweetalert2";
-import * as Icons from "phosphor-react";
+import axios from "axios";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import Loader from "react-loader-spinner";
 let web3;
 let accounts;
 let rideShare;
@@ -21,11 +23,52 @@ function OfferRide() {
     confirmedBy: "",
     arrivalDate: Date,
     arrivalTime: "",
-    expectedPayment: "",
   });
+  const [expectedPayment, setExpectedPayment] = useState("");
+  const [ETHValue, setETHValue] = useState(0);
+  const [USDValue, setUSDValue] = useState(0);
+  const [loader, setLoader] = useState(false);
   const onChangeInput = (e) => {
     setRideForm({ ...rideForm, [e.target.name]: e.target.value });
   };
+
+  async function ExpectedPaymentFunc(e) {
+    setLoader(true);
+    var value = e.target.value;
+    setExpectedPayment(e.target.value);
+    const etherValue = await Web3.utils.fromWei(value, "ether");
+    setETHValue(etherValue);
+    axios
+      .get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD")
+      .then((res) => {
+        let d = res.data;
+        let USD = d.USD * etherValue;
+        // console.log(financial(USD));
+        setUSDValue(toFixed(USD));
+        setLoader(false);
+      });
+  }
+  function financial(x) {
+    return Number.parseFloat(x).toFixed(3);
+  }
+  function toFixed(x) {
+    if (Math.abs(x) < 1.0) {
+      var e = parseInt(x.toString().split("e-")[1]);
+      if (e) {
+        x *= Math.pow(10, e - 1);
+        x = "0." + new Array(e).join("0") + x.toString().substring(2);
+      }
+    } else {
+      var e = parseInt(x.toString().split("+")[1]);
+      if (e > 20) {
+        e -= 20;
+        x /= Math.pow(10, e);
+        x += new Array(e + 1).join("0");
+      }
+    }
+
+    return x;
+  }
 
   async function SubmitForm() {
     var ArrivalTime = rideForm.arrivalTime.split(":");
@@ -53,7 +96,7 @@ function OfferRide() {
       let res = await rideShare.methods
         .createRide(
           rideForm.carName,
-          rideForm.expectedPayment,
+          expectedPayment,
           rideForm.capacity,
           rideForm.origin,
           rideForm.destination,
@@ -296,10 +339,10 @@ function OfferRide() {
                           </label>
                           <div className="flex">
                             <div className="w-10 z-10 pl-5 text-center pointer-events-none flex items-center justify-center">
-                              <i>eth</i>
+                              <i>wei</i>
                             </div>
                             <input
-                              onChange={(e) => onChangeInput(e)}
+                              onChange={(e) => ExpectedPaymentFunc(e)}
                               name="expectedPayment"
                               type="number"
                               className="w-full -ml-10 pl-20 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
@@ -308,6 +351,59 @@ function OfferRide() {
                           </div>
                         </div>
                       </div>
+                      <div className="flex -mx-3">
+                        <div className="w-full px-3 mb-5">
+                          <label for="" className="text-xs font-semibold px-1">
+                            ETH
+                          </label>
+                          <div className="flex">
+                            <div className="w-10 z-10 pl-5 text-center pointer-events-none flex items-center justify-center"></div>
+                            {loader ? (
+                              <>
+                                <Loader
+                                  type="Circles"
+                                  color="black"
+                                  height={30}
+                                  width={30}
+                                />
+                              </>
+                            ) : (
+                              <>
+                                <span style={{ color: "green" }}>
+                                  {ETHValue}
+                                </span>
+                              </>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex -mx-3">
+                        <div className="w-full px-3 mb-5">
+                          <label for="" className="text-xs font-semibold px-1">
+                            USD
+                          </label>
+                          <div className="flex">
+                            <div className="w-10 z-10 pl-5 text-center pointer-events-none flex items-center justify-center"></div>
+                            {loader ? (
+                              <>
+                                <Loader
+                                  type="Circles"
+                                  color="black"
+                                  height={30}
+                                  width={30}
+                                />
+                              </>
+                            ) : (
+                              <>
+                                <span style={{ color: "green" }}>
+                                  {USDValue}
+                                </span>
+                              </>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+
                       <div className="flex -mx-3">
                         <div className="w-full px-3 mb-5">
                           <button
