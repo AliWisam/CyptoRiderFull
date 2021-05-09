@@ -18,6 +18,10 @@ import './Authentication.sol';
  */
 library Strings {
     
+    
+    
+    
+
     /**
      * Concat (High gas cost)
      * 
@@ -844,11 +848,26 @@ contract Rideshare is  Killable {
     return false;
   }
   
+  function _deletePassengerFromRide(uint rideNumber, address passengerAcctIndex) internal returns(address[] memory) {
+    Ride storage curRide = rides[rideNumber];
+    
+    for(uint i = 0; i < curRide.passengerAccts.length; i++) {
+      if (curRide.passengerAccts[i] == passengerAcctIndex) {
+          delete curRide.passengerAccts[i];
+        curRide.passengerAccts[i] = curRide.passengerAccts[curRide.passengerAccts.length -1];
+        curRide.passengerAccts.length--;
+        
+        
+      }
+    }
+        
+  }
+  
   function cancelRide(uint rideNumber) public{
     Ride storage curRide = rides[rideNumber];
    // require(block.timestamp < curRide.confirmedAt);
     riderData[msg.sender]=0;
-    //
+    
     // DriverRides memory dRides;
    
     if (msg.sender == curRide.driver) {
@@ -857,10 +876,16 @@ contract Rideshare is  Killable {
         address(uint160(curRide.passengerAccts[i])).transfer(curRide.passengers[curRide.passengerAccts[i]].price);
         //
         if(DRides[msg.sender].cancelledRides >0){DRides[msg.sender].cancelledRides--;}
-        // DRides[msg.sender].cancelledRides--;
+        
       }
     } else if (passengerInRide(rideNumber, msg.sender)) {
+        
+    _deletePassengerFromRide( rideNumber,  msg.sender);    
+        
+        
+        
       msg.sender.transfer(curRide.passengers[msg.sender].price);
+      
       //
       if(DRides[msg.sender].cancelledRides >0){DRides[msg.sender].cancelledRides--;}
     }
