@@ -147,7 +147,7 @@ function MyRides() {
         .send({ from: accounts[0] });
 
       console.log(res);
-      window.location.reload();
+      history.push("/");
     } catch (error) {
       console.log(error);
     }

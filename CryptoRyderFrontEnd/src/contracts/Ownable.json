@@ -81,15 +81,15 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"},{\"constant\":true,\"inputs\":[],\"name\":\"isOwner\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"renounceOwnership\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"details\":\"The Ownable contract has an owner address, and provides basic authorization control functions, this simplifies the implementation of \\\"user permissions\\\".\",\"methods\":{\"constructor\":{\"details\":\"The Ownable constructor sets the original `owner` of the contract to the sender account.\"},\"isOwner()\":{\"return\":\"true if `msg.sender` is the owner of the contract.\"},\"owner()\":{\"return\":\"the address of the owner.\"},\"renounceOwnership()\":{\"details\":\"Allows the current owner to relinquish control of the contract.\"},\"transferOwnership(address)\":{\"details\":\"Allows the current owner to transfer control of the contract to a newOwner.\",\"params\":{\"newOwner\":\"The address to transfer ownership to.\"}}},\"title\":\"Ownable\"},\"userdoc\":{\"methods\":{\"renounceOwnership()\":{\"notice\":\"Renouncing to ownership will leave the contract without an owner. It will not be possible to call the functions with the `onlyOwner` modifier anymore.\"}}}},\"settings\":{\"compilationTarget\":{\"/home/aliwisam/AliWisamData/Personal/Orders/Sir Danyal/CyptoRiderFull/contracts/Killable.sol\":\"Ownable\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/aliwisam/AliWisamData/Personal/Orders/Sir Danyal/CyptoRiderFull/contracts/Killable.sol\":{\"keccak256\":\"0x9c2adffe447788e9bf7568e496a1a13ac26d10bad19a428b515b8ccc698647dc\",\"urls\":[\"bzz-raw://8653ef3fe1ecd55889bc9f1320911a597ceb62a523cc9a59107a185ff4125a92\",\"dweb:/ipfs/QmTxCqV1CPiavSdPWh3bkUZsbRDQpE8eUt1AGPfzoXxMof\"]}},\"version\":1}",
+  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"},{\"constant\":true,\"inputs\":[],\"name\":\"isOwner\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"renounceOwnership\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"details\":\"The Ownable contract has an owner address, and provides basic authorization control functions, this simplifies the implementation of \\\"user permissions\\\".\",\"methods\":{\"constructor\":{\"details\":\"The Ownable constructor sets the original `owner` of the contract to the sender account.\"},\"isOwner()\":{\"return\":\"true if `msg.sender` is the owner of the contract.\"},\"owner()\":{\"return\":\"the address of the owner.\"},\"renounceOwnership()\":{\"details\":\"Allows the current owner to relinquish control of the contract.\"},\"transferOwnership(address)\":{\"details\":\"Allows the current owner to transfer control of the contract to a newOwner.\",\"params\":{\"newOwner\":\"The address to transfer ownership to.\"}}},\"title\":\"Ownable\"},\"userdoc\":{\"methods\":{\"renounceOwnership()\":{\"notice\":\"Renouncing to ownership will leave the contract without an owner. It will not be possible to call the functions with the `onlyOwner` modifier anymore.\"}}}},\"settings\":{\"compilationTarget\":{\"/home/khizer/Documents/CyptoRiderFull/contracts/Killable.sol\":\"Ownable\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/khizer/Documents/CyptoRiderFull/contracts/Killable.sol\":{\"keccak256\":\"0x9c2adffe447788e9bf7568e496a1a13ac26d10bad19a428b515b8ccc698647dc\",\"urls\":[\"bzz-raw://8653ef3fe1ecd55889bc9f1320911a597ceb62a523cc9a59107a185ff4125a92\",\"dweb:/ipfs/QmTxCqV1CPiavSdPWh3bkUZsbRDQpE8eUt1AGPfzoXxMof\"]}},\"version\":1}",
   "bytecode": "0x",
   "deployedBytecode": "0x",
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity ^0.5.16;\n\n\n//import \"https://github.com/OpenZeppelin/openzeppelin-contracts/blob/docs-org/contracts/ownership/Ownable.sol\";\n//import \"https://github.com/OpenZeppelin/openzeppelin-contracts/blob/solc-0.6/contracts/access/Ownable.sol\";\n\n/*\n * Killable\n * Base contract that can be killed by owner. All funds in contract will be sent to the owner.\n */\n /**\n * @title Ownable\n * @dev The Ownable contract has an owner address, and provides basic authorization control\n * functions, this simplifies the implementation of \"user permissions\".\n */\ncontract Ownable {\n  address private _owner;\n\n  event OwnershipTransferred(\n    address indexed previousOwner,\n    address indexed newOwner\n  );\n\n  /**\n   * @dev The Ownable constructor sets the original `owner` of the contract to the sender\n   * account.\n   */\n  constructor() internal {\n    _owner = msg.sender;\n    emit OwnershipTransferred(address(0), _owner);\n  }\n\n  /**\n   * @return the address of the owner.\n   */\n  function owner() public view returns(address) {\n    return _owner;\n  }\n\n  /**\n   * @dev Throws if called by any account other than the owner.\n   */\n  modifier onlyOwner() {\n    require(isOwner());\n    _;\n  }\n\n  /**\n   * @return true if `msg.sender` is the owner of the contract.\n   */\n  function isOwner() public view returns(bool) {\n    return msg.sender == _owner;\n  }\n\n  /**\n   * @dev Allows the current owner to relinquish control of the contract.\n   * @notice Renouncing to ownership will leave the contract without an owner.\n   * It will not be possible to call the functions with the `onlyOwner`\n   * modifier anymore.\n   */\n  function renounceOwnership() public onlyOwner {\n    emit OwnershipTransferred(_owner, address(0));\n    _owner = address(0);\n  }\n\n  /**\n   * @dev Allows the current owner to transfer control of the contract to a newOwner.\n   * @param newOwner The address to transfer ownership to.\n   */\n  function transferOwnership(address newOwner) public onlyOwner {\n    _transferOwnership(newOwner);\n  }\n\n  /**\n   * @dev Transfers control of the contract to a newOwner.\n   * @param newOwner The address to transfer ownership to.\n   */\n  function _transferOwnership(address newOwner) internal {\n    require(newOwner != address(0));\n    emit OwnershipTransferred(_owner, newOwner);\n    _owner = newOwner;\n  }\n}\n\n\ncontract Killable is Ownable {\n  function kill() public onlyOwner  {\n     address owner;\n    address payable addr3 = address(uint160(owner));\n    \n    selfdestruct(addr3);\n  }\n}",
-  "sourcePath": "/home/aliwisam/AliWisamData/Personal/Orders/Sir Danyal/CyptoRiderFull/contracts/Killable.sol",
+  "sourcePath": "/home/khizer/Documents/CyptoRiderFull/contracts/Killable.sol",
   "ast": {
-    "absolutePath": "/home/aliwisam/AliWisamData/Personal/Orders/Sir Danyal/CyptoRiderFull/contracts/Killable.sol",
+    "absolutePath": "/home/khizer/Documents/CyptoRiderFull/contracts/Killable.sol",
     "exportedSymbols": {
       "Killable": [
         564
@@ -260,7 +260,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 4093,
+                        "referencedDeclaration": 4166,
                         "src": "858:3:1",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -564,10 +564,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        4096,
-                        4097
+                        4169,
+                        4170
                       ],
-                      "referencedDeclaration": 4096,
+                      "referencedDeclaration": 4169,
                       "src": "1156:7:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -638,7 +638,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 4093,
+                        "referencedDeclaration": 4166,
                         "src": "1324:3:1",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -1240,10 +1240,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        4096,
-                        4097
+                        4169,
+                        4170
                       ],
-                      "referencedDeclaration": 4096,
+                      "referencedDeclaration": 4169,
                       "src": "2197:7:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -1678,7 +1678,7 @@
                       "name": "selfdestruct",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 4101,
+                      "referencedDeclaration": 4174,
                       "src": "2461:12:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_selfdestruct_nonpayable$_t_address_payable_$returns$__$",
@@ -1759,7 +1759,7 @@
   },
   "legacyAST": {
     "attributes": {
-      "absolutePath": "/home/aliwisam/AliWisamData/Personal/Orders/Sir Danyal/CyptoRiderFull/contracts/Killable.sol",
+      "absolutePath": "/home/khizer/Documents/CyptoRiderFull/contracts/Killable.sol",
       "exportedSymbols": {
         "Killable": [
           564
@@ -1988,7 +1988,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 4093,
+                                  "referencedDeclaration": 4166,
                                   "type": "msg",
                                   "value": "msg"
                                 },
@@ -2284,10 +2284,10 @@
                                 }
                               ],
                               "overloadedDeclarations": [
-                                4096,
-                                4097
+                                4169,
+                                4170
                               ],
-                              "referencedDeclaration": 4096,
+                              "referencedDeclaration": 4169,
                               "type": "function (bool) pure",
                               "value": "require"
                             },
@@ -2459,7 +2459,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 4093,
+                                  "referencedDeclaration": 4166,
                                   "type": "msg",
                                   "value": "msg"
                                 },
@@ -3033,10 +3033,10 @@
                                 }
                               ],
                               "overloadedDeclarations": [
-                                4096,
-                                4097
+                                4169,
+                                4170
                               ],
-                              "referencedDeclaration": 4096,
+                              "referencedDeclaration": 4169,
                               "type": "function (bool) pure",
                               "value": "require"
                             },
@@ -3585,7 +3585,7 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 4101,
+                              "referencedDeclaration": 4174,
                               "type": "function (address payable)",
                               "value": "selfdestruct"
                             },
@@ -3642,8 +3642,8 @@
     "version": "0.5.16+commit.9c3226ce.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "3.4.0",
-  "updatedAt": "2021-05-08T20:47:46.681Z",
+  "schemaVersion": "3.3.4",
+  "updatedAt": "2021-05-10T12:07:38.571Z",
   "devdoc": {
     "details": "The Ownable contract has an owner address, and provides basic authorization control functions, this simplifies the implementation of \"user permissions\".",
     "methods": {
